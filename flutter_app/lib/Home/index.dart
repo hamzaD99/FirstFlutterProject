@@ -1,4 +1,9 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swipedetector/swipedetector.dart';
+
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -12,6 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool checkStat1 = false;
   bool checkStat2 = false;
   int selectedRadio = 0;
+  String dropdownValue = 'Choose';
   String selectedRadioStr = "Nothing";
 
   bool validateStructure(String value){
@@ -86,8 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
   //EN
-
-
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
@@ -107,53 +111,61 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Flutter Demo App'),
+          backgroundColor: Colors.green,
         ),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.white,
             child: Column(
                 children:[
-                  Image.asset("lib/assets/logo.png"),
+                  Container(
+                      margin: EdgeInsets.only(
+                        top:20,
+                      ),
+                      child: Image.asset("lib/assets/logo.png")),
                   Container(
                     child: Column(
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            children: [
-                              //Name
-                              TextFormField(
-                                onChanged: (text){
-                                  print("Name: "+text);
-                                },
-                                controller: nameCont,
-                                decoration: InputDecoration(
-                                  labelText: 'Name',
+                          child:  Container(
+                            margin: EdgeInsets.only(bottom: 25),
+                            child: Column(
+                              children: [
+                                //Name
+                                TextFormField(
+                                  onChanged: (text){
+                                    print("Name: "+text);
+                                  },
+                                  controller: nameCont,
+                                  decoration: InputDecoration(
+                                    labelText: 'Name',
+                                  ),
                                 ),
-                              ),
-                              //Age
-                              TextFormField(
-                                keyboardType: TextInputType.phone,
-                                onChanged: (text){
-                                  print("Age: "+text);
-                                },
-                                controller: ageCont,
-                                decoration: InputDecoration(
-                                  labelText: 'Age',
+                                //Age
+                                TextFormField(
+                                  keyboardType: TextInputType.phone,
+                                  onChanged: (text){
+                                    print("Age: "+text);
+                                  },
+                                  controller: ageCont,
+                                  decoration: InputDecoration(
+                                    labelText: 'Age',
+                                  ),
                                 ),
-                              ),
-                              //Password
-                              TextFormField(
-                                onChanged: (text){
-                                  print("Password: "+text);
-                                },
-                                obscureText: true,
-                                controller: passCont,
-                                decoration: InputDecoration(
-                                  labelText: 'Password',
+                                //Password
+                                TextFormField(
+                                  onChanged: (text){
+                                    print("Password: "+text);
+                                  },
+                                  obscureText: true,
+                                  controller: passCont,
+                                  decoration: InputDecoration(
+                                    labelText: 'Password',
+                                  ),
                                 ),
-                              ),
-                          ],
+                            ],
+                            ),
                           ),
                         ),
                         //Checkboxes
@@ -165,21 +177,25 @@ class _MyHomePageState extends State<MyHomePage> {
                               setState(() {
                                 checkStat0 = !checkStat0;
                               });
-                            }),
+                            },
+                              activeColor: Colors.green,
+                            ),
                             Text("Op1"),
                             //op2
-                            Checkbox(value: checkStat1, onChanged: (q){
+                            Checkbox(value: checkStat1, onChanged: (j){
                               setState(() {
                                 checkStat1 = !checkStat1;
                               });
-                            }),
+                            },
+                              activeColor: Colors.green,),
                             Text("Op2"),
                             //op3
                             Checkbox(value: checkStat2, onChanged: (q){
                               setState(() {
                                 checkStat2 = !checkStat2;
                               });
-                            }),
+                            },
+                              activeColor: Colors.green,),
                             Text("Op3")
                           ],
                         ),
@@ -194,6 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 print("Radio $val");
                                 setSelectedRadio(val);
                               },
+                              activeColor: Colors.green,
                             ),
                             Text("R1"),
                             //op2
@@ -203,6 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 print("Radio $val");
                                 setSelectedRadio(val);
                               },
+                              activeColor: Colors.green,
                             ),
                             Text("R2"),
                             //op3
@@ -212,14 +230,67 @@ class _MyHomePageState extends State<MyHomePage> {
                                 print("Radio $val");
                                 setSelectedRadio(val);
                               },
+                              activeColor: Colors.green,
                             ),
                             Text("R3")
                           ],
                         ),
-                        //Button
+                        //DropDown
                         Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.green,
+                                width: 3,
+                              ),
+                            borderRadius: BorderRadius.circular(9.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: DropdownButton<String>(
+                              value: dropdownValue,
+                              icon: Icon(Icons.arrow_downward),
+                              iconSize: 15,
+                              elevation: 16,
+                              style: TextStyle(color: Colors.green),
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  dropdownValue = newValue;
+                                });
+                              },
+                              items: <String>['Choose','Op1', 'Op2', 'Op3', 'Op4']
+                                  .map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 10.0),
+                                    child: Text(value,
+                                    style: TextStyle(
+                                      fontSize: 19,
+
+                                    ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top:15,bottom: 15),
                           child: RaisedButton(
-                              child: Text("Save"),
+                              elevation: 5.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(13.0),
+                              ),
+                              highlightElevation: 8.0,
+                              padding: EdgeInsets.symmetric(horizontal: 80.0,vertical: 20.0),
+                              textColor: Colors.white,
+                              color: Colors.green,
+                              child: Text("Save",
+                                style: TextStyle(
+                                  fontSize:20.0,
+                                ),
+                              ),
                               onPressed: (){
                                 String Check = "";
                                 String Error = "";
@@ -257,6 +328,75 @@ class _MyHomePageState extends State<MyHomePage> {
                                 }
                               }
                           ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top:5,bottom: 15),
+                          child: SwipeDetector(
+                            // When the child is tapped, show a snackbar.
+                            onSwipeRight: () {
+                              setState(() {
+                                nameCont.text = "";
+                                ageCont.text = "";
+                                passCont.text = "";
+                                checkStat0 = false;
+                                checkStat1 = false;
+                                checkStat2 = false;
+                                selectedRadio = 0;
+                                dropdownValue = "Choose";
+                              });
+                            },
+                            // The custom button
+                            child: Container(
+                              width: 205,
+                              height: 61,
+                              //alignment: Alignment.center,
+                              padding: EdgeInsets.all(12.0),
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.5),
+                                    blurRadius: 20.0, // soften the shadow
+                                    spreadRadius: 1.0, //extend the shadow
+                                    offset: Offset(
+                                      5.0, // Move to right 10  horizontally
+                                      5.0, // Move to bottom 10 Vertically
+                                    ),
+                                  )
+                                ],
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Dismiss",
+                                      style: TextStyle(
+                                        fontSize:20.0,
+                                        color:Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                            ),
+                                Icon(Icons.arrow_right_alt_rounded,size: 40,color: Colors.white,)
+                                ],
+                              ),
+                          )),
+                        ),
+                        Stack(
+                          children: [
+                            Container(
+                            margin: EdgeInsets.only(bottom: 25),
+                            height: 300,
+                            width: 400,
+                            child:
+                                  Image.network("https://www.psut.edu.jo/sites/default/files/styles/main_slider/public/home%20page%20%281%29_0.JPG?itok=Fat8KAYf"),
+                          ),
+                            Container(
+                              margin: EdgeInsets.only(top:72),
+                              height: 155,
+                              width: 400,
+                              color: Colors.lightBlue.withOpacity(0.5),
+                            ),
+                          ]
                         )
                       ],
                     ),
