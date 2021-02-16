@@ -1,8 +1,10 @@
 import 'dart:ui';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swipedetector/swipedetector.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+String pre="";
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int selectedRadio = 0;
   String dropdownValue = 'Choose';
   String selectedRadioStr = "Nothing";
+  String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
 
   bool validateStructure(String value){
     String  pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
@@ -85,6 +88,42 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  void _showMyDialogDismiss() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Reset the form?'),
+          content: Text('This will reset the data you just wrote.'),
+          actions: [
+            FlatButton(
+              textColor: Colors.green,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('CANCEL'),
+            ),
+            FlatButton(
+              textColor: Colors.red,
+              onPressed: () {
+                nameCont.text = "";
+                ageCont.text = "";
+                passCont.text = "";
+                checkStat0 = false;
+                checkStat1 = false;
+                checkStat2 = false;
+                selectedRadio = 0;
+                dropdownValue = "Choose";
+                Navigator.of(context).pop();
+              },
+              child: Text('ACCEPT'),
             ),
           ],
         );
@@ -318,6 +357,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   _showMyDialogSaved(
                                       nameCont.text, ageCont.text,
                                       selectedRadioStr, Check);
+                                    pre="";
+                                    saveData(nameCont.text,ageCont.text,selectedRadioStr,Check,formattedDate);
+                                    print(formattedDate);
                                 }
                                 else {
                                   if(nameCont.text == "") Error += "You should type a name.\n";
@@ -335,14 +377,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             // When the child is tapped, show a snackbar.
                             onSwipeRight: () {
                               setState(() {
-                                nameCont.text = "";
-                                ageCont.text = "";
-                                passCont.text = "";
-                                checkStat0 = false;
-                                checkStat1 = false;
-                                checkStat2 = false;
-                                selectedRadio = 0;
-                                dropdownValue = "Choose";
+                                _showMyDialogDismiss();
                               });
                             },
                             // The custom button
@@ -409,7 +444,34 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             ),
                           ]
-                        )
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top:15,bottom: 15),
+                          child: RaisedButton(
+                            elevation: 5.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(13.0),
+                            ),
+                            highlightElevation: 8.0,
+                            padding: EdgeInsets.symmetric(horizontal: 80.0,vertical: 20.0),
+                            textColor: Colors.white,
+                            color: Colors.blue,
+                            child: Text("Show Last Save",
+                              style: TextStyle(
+                                fontSize:20.0,
+                              ),
+                            ),
+                          onPressed: (){
+                            readData();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) => FullScreenDialog(),
+                                fullscreenDialog: true,
+                              ),
+                            );
+                          },
+                          ))
                       ],
                     ),
                   )
@@ -421,4 +483,41 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
   }
+}
+
+class FullScreenDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    String Data = pre;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text('Last Save'),
+      ),
+      body: Center(
+        child: Text(Data,
+        style: TextStyle(
+          fontSize: 20,
+        ),
+        )
+      ),
+    );
+  }
+}
+saveData(name,age,rad,che,date) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('Name', name);
+  await prefs.setString('Age', age);
+  await prefs.setString('Radio', rad);
+  await prefs.setString('Check', che);
+  await prefs.setString('Time', date);
+}
+readData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  pre += "Name: " + prefs.getString('Name') + "\n";
+  pre += "Age: " + prefs.getString('Age') + "\n";
+  pre += "Password: !can'tSh0w1t\n";
+  pre += "Radio: " + prefs.getString('Radio') + "\n";
+  pre += "Check: " + prefs.getString('Check') + "\n";
+  pre += "Time: " + prefs.getString('Time') + "\n";
 }
