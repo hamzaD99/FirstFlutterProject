@@ -382,19 +382,31 @@ class _MyHomePageState extends State<MyHomePage> {
                           )),
                         ),
                         Stack(
+                          overflow: Overflow.visible,
                           children: [
                             Container(
-                            margin: EdgeInsets.only(bottom: 25),
-                            height: 300,
-                            width: 400,
-                            child:
-                                  Image.network("https://www.psut.edu.jo/sites/default/files/styles/main_slider/public/home%20page%20%281%29_0.JPG?itok=Fat8KAYf"),
-                          ),
-                            Container(
-                              margin: EdgeInsets.only(top:72),
-                              height: 155,
+                              height: 200,
                               width: 400,
-                              color: Colors.lightBlue.withOpacity(0.5),
+                              child:
+                              Image.network("https://www.designwall.com/wp-content/uploads/edd/2018/03/notification-704x440.jpg"),
+                            ),
+                            Positioned(
+                              left: 40,
+                              child: Container(
+                                margin: EdgeInsets.only(bottom: 25),
+                                height: 200,
+                                width: 320,
+                              color: Colors.green.withOpacity(0.4),
+                              ),
+                            ),
+
+                            Positioned(
+                              bottom: 160,
+                              right: 10,
+                              child: Icon(
+                                Icons.notification_important,
+                                size: 80,
+                              ),
                             ),
                           ]
                         )
