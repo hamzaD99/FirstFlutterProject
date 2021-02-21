@@ -492,7 +492,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   left: 10,
                                 ),
                                 child: Image(
-                                  image: AssetImage("assets/" + icon),
+                                  image: AssetImage("lib/assets/" + icon),
                                 ),
                                 height: 30,
                                 width: 30,
@@ -505,17 +505,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                 padding: EdgeInsets.only(left: 4, right: 4),
                                 color: Colors.transparent,
                               ),
-                              onChanged: (String newValue) {
+                              onChanged: (String newValue2) {
                                 setState(() {
-                                  if (newValue == 'English - UK') {
+                                  if (newValue2 == 'English - UK') {
                                     this.setState(() {
-                                      dropdownValue = 'English - UK';
+                                      dropdownValue2 = 'English - UK';
                                       icon = "uk.png";
                                       context.locale = Locale('en', 'UK');
                                     });
-                                  } else if (newValue == 'Spanish - ES') {
+                                  } else if (newValue2 == 'Arabic - JO') {
                                     this.setState(() {
-                                      dropdownValue = 'Arabic - JO';
+                                      dropdownValue2 = 'Arabic - JO';
                                       icon = "ar.png";
                                       context.locale = Locale('ar', 'JO');
                                     });
@@ -532,7 +532,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black,
-                                    ),
+                                    )
                                   ),
                                 );
                               }).toList(),
