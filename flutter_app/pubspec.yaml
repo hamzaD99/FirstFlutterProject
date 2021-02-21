@@ -24,6 +24,7 @@ dependencies:
   shared_preferences: ^0.5.12+4
   flutter:
     sdk: flutter
+  easy_localization: 2.3.3
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -48,6 +49,7 @@ flutter:
 
   assets:
     - lib/assets/
+    - lib/Langs/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

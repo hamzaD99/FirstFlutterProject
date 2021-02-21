@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swipedetector/swipedetector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:easy_localization/easy_localization.dart';
 String pre="";
 
 class MyHomePage extends StatefulWidget {
@@ -19,7 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool checkStat1 = false;
   bool checkStat2 = false;
   int selectedRadio = 0;
-  String dropdownValue = 'Choose';
+  String dropdownValue = 'Cho'.tr();
   String selectedRadioStr = "Nothing";
   String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
 
@@ -27,6 +28,18 @@ class _MyHomePageState extends State<MyHomePage> {
     String  pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regExp = new RegExp(pattern);
     return (regExp.hasMatch(value) && value.length>5);
+  }
+  void reset(){
+    nameCont.text = "";
+    ageCont.text = "";
+    passCont.text = "";
+    setState(() {
+      checkStat0 = false;
+      checkStat1 = false;
+      checkStat2 = false;
+      dropdownValue = "Cho".tr();
+    });
+    setSelectedRadio(0);
   }
   bool isNumeric(String s) {
     if(s == null) {
@@ -59,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
               child: Text('K -_-'),
               onPressed: () {
+                reset();
                 Navigator.of(context).pop();
               },
             ),
@@ -73,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Something went wrong!'),
+          title: Text('wrong'.tr()),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -100,30 +114,23 @@ class _MyHomePageState extends State<MyHomePage> {
       barrierDismissible: true, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Reset the form?'),
-          content: Text('This will reset the data you just wrote.'),
+          title: Text("reset".tr()),
+          content: Text('Rmess'.tr()),
           actions: [
             FlatButton(
               textColor: Colors.green,
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('CANCEL'),
+              child: Text('CANCEL'.tr()),
             ),
             FlatButton(
               textColor: Colors.red,
               onPressed: () {
-                nameCont.text = "";
-                ageCont.text = "";
-                passCont.text = "";
-                checkStat0 = false;
-                checkStat1 = false;
-                checkStat2 = false;
-                selectedRadio = 0;
-                dropdownValue = "Choose";
+                reset();
                 Navigator.of(context).pop();
               },
-              child: Text('ACCEPT'),
+              child: Text('ACCEPT'.tr()),
             ),
           ],
         );
@@ -149,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Material(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Flutter Demo App'),
+          title: Text("title").tr(),
           backgroundColor: Colors.green,
         ),
         body: SingleChildScrollView(
@@ -178,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   controller: nameCont,
                                   decoration: InputDecoration(
-                                    labelText: 'Name',
+                                    labelText: 'Name'.tr(),
                                   ),
                                 ),
                                 //Age
@@ -189,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   controller: ageCont,
                                   decoration: InputDecoration(
-                                    labelText: 'Age',
+                                    labelText: 'Age'.tr(),
                                   ),
                                 ),
                                 //Password
@@ -200,7 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   obscureText: true,
                                   controller: passCont,
                                   decoration: InputDecoration(
-                                    labelText: 'Password',
+                                    labelText: 'pass'.tr(),
                                   ),
                                 ),
                             ],
@@ -219,7 +226,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             },
                               activeColor: Colors.green,
                             ),
-                            Text("Op1"),
+                            Text("Op".tr()+" 1"),
                             //op2
                             Checkbox(value: checkStat1, onChanged: (j){
                               setState(() {
@@ -227,7 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               });
                             },
                               activeColor: Colors.green,),
-                            Text("Op2"),
+                            Text("Op".tr()+" 2"),
                             //op3
                             Checkbox(value: checkStat2, onChanged: (q){
                               setState(() {
@@ -235,7 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               });
                             },
                               activeColor: Colors.green,),
-                            Text("Op3")
+                            Text("Op".tr()+" 3")
                           ],
                         ),
                         //Radio Buttons
@@ -251,7 +258,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               },
                               activeColor: Colors.green,
                             ),
-                            Text("R1"),
+                            Text("R".tr()+" 1"),
                             //op2
                             Radio(value: 2,
                               groupValue: selectedRadio,
@@ -261,7 +268,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               },
                               activeColor: Colors.green,
                             ),
-                            Text("R2"),
+                            Text("R".tr()+" 2"),
                             //op3
                             Radio(value: 3,
                               groupValue: selectedRadio,
@@ -271,7 +278,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               },
                               activeColor: Colors.green,
                             ),
-                            Text("R3")
+                            Text("R".tr()+" 3")
                           ],
                         ),
                         //DropDown
@@ -296,8 +303,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   dropdownValue = newValue;
                                 });
                               },
-                              items: <String>['Choose','Op1', 'Op2', 'Op3', 'Op4']
-                                  .map((String value) {
+                              items: <String>['Cho'.tr(),"Op".tr()+" 1", "Op".tr()+" 2", "Op".tr()+" 3", "Op".tr()+" 4"]
+                                  .map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Padding(
@@ -325,7 +332,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               padding: EdgeInsets.symmetric(horizontal: 80.0,vertical: 20.0),
                               textColor: Colors.white,
                               color: Colors.green,
-                              child: Text("Save",
+                              child: Text("Save".tr(),
                                 style: TextStyle(
                                   fontSize:20.0,
                                 ),
@@ -335,23 +342,23 @@ class _MyHomePageState extends State<MyHomePage> {
                                 String Error = "";
                                 switch(selectedRadio){
                                   case 1:
-                                    selectedRadioStr = "R1";
+                                    selectedRadioStr = "R".tr()+" 1";
                                     break;
                                   case 2:
-                                    selectedRadioStr = "R2";
+                                    selectedRadioStr = "R".tr()+" 2";
                                     break;
                                   case 3:
-                                    selectedRadioStr = "R3";
+                                    selectedRadioStr = "R".tr()+" 3";
                                     break;
                                 }
                                 if(checkStat0){
-                                  Check+="Op1 ";
+                                  Check+="Op".tr()+"1 ";
                                 }
                                 if(checkStat1){
-                                  Check+="Op2 ";
+                                  Check+="Op".tr()+"2 ";
                                 }
                                 if(checkStat2){
-                                  Check+="Op3 ";
+                                  Check+="Op".tr()+"3 ";
                                 }
                                 if(nameCont.text != "" && validateStructure(passCont.text) && selectedRadio != 0 && isNumeric(ageCont.text)) {
                                   _showMyDialogSaved(
@@ -362,10 +369,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                     print(formattedDate);
                                 }
                                 else {
-                                  if(nameCont.text == "") Error += "You should type a name.\n";
-                                  if(!validateStructure(passCont.text)) Error += "Check your password.\n";
-                                  if(selectedRadio == 0) Error += "You should select a radio option.\n";
-                                  if(!isNumeric(ageCont.text)) Error += "type your age correctly.\n";
+                                  if(nameCont.text == "") Error += "ErrName".tr()+"\n";
+                                  if(!validateStructure(passCont.text)) Error += "ErrPass".tr()+"\n";
+                                  if(selectedRadio == 0) Error += "ErrRa".tr()+"\n";
+                                  if(!isNumeric(ageCont.text)) Error += "ErrAge".tr()+"\n";
                                   _showMyDialogError(Error);
                                 }
                               }
@@ -404,7 +411,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("Dismiss",
+                                  Text("Dismiss".tr(),
                                       style: TextStyle(
                                         fontSize:20.0,
                                         color:Colors.white,
@@ -456,7 +463,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             padding: EdgeInsets.symmetric(horizontal: 80.0,vertical: 20.0),
                             textColor: Colors.white,
                             color: Colors.blue,
-                            child: Text("Show Last Save",
+                            child: Text("last".tr(),
                               style: TextStyle(
                                 fontSize:20.0,
                               ),
@@ -471,8 +478,28 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             );
                           },
-                          ))
-                      ],
+                          )),
+                        RaisedButton(
+                          elevation: 5.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(13.0),
+                          ),
+                          highlightElevation: 8.0,
+                          padding: EdgeInsets.symmetric(horizontal: 80.0,vertical: 20.0),
+                          textColor: Colors.white,
+                          color: Colors.pink,
+                          child: Text("lan".tr(),
+                            style: TextStyle(
+                              fontSize:20.0,
+                            ),
+                          ),
+                          onPressed: (){
+
+                          }
+                        ),
+
+
+                        ],
                     ),
                   )
                 ]
@@ -492,7 +519,7 @@ class FullScreenDialog extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: Text('Last Save'),
+        title: Text('Last Save'.tr()),
       ),
       body: Center(
         child: Text(Data,
@@ -514,10 +541,10 @@ saveData(name,age,rad,che,date) async {
 }
 readData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  pre += "Name: " + prefs.getString('Name') + "\n";
-  pre += "Age: " + prefs.getString('Age') + "\n";
-  pre += "Password: !can'tSh0w1t\n";
-  pre += "Radio: " + prefs.getString('Radio') + "\n";
-  pre += "Check: " + prefs.getString('Check') + "\n";
-  pre += "Time: " + prefs.getString('Time') + "\n";
+  pre += "Name".tr()+": " + prefs.getString('Name') + "\n";
+  pre += "Age".tr()+": " + prefs.getString('Age') + "\n";
+  pre += "pass".tr() + ":!can'tSh0w1t\n";
+  pre += "Radio".tr()+": " + prefs.getString('Radio') + "\n";
+  pre += "Check".tr()+": "  + prefs.getString('Check') + "\n";
+  pre += "Time".tr()+": " + prefs.getString('Time') + "\n";
 }

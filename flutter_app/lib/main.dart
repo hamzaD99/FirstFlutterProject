@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Home/index.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 void main() {
-  runApp(MyApp());
-}
+  runApp(
+      EasyLocalization(
+          path: 'lib/Langs',
+          supportedLocales: [Locale('en', 'UK'), Locale('ar', 'JO')],
+          child: MyApp())
+  );}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -27,6 +32,9 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       home: MyHomePage(),
     );
   }
