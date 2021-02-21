@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:swipedetector/swipedetector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_app/Device.dart';
 String pre="";
 
 class MyHomePage extends StatefulWidget {
@@ -155,6 +156,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   Widget build(BuildContext context) {
+    Device.Height = MediaQuery.of(context).size.height;
+    Device.Width = MediaQuery.of(context).size.width;
+    var _height = Device.Height;
+    var _width = Device.Width;
+    print(_height);
+    print(_width);
     return Material(
       child: Scaffold(
         appBar: AppBar(
@@ -392,7 +399,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             // The custom button
                             child: Container(
                               width: 205,
-                              height: 61,
+                              height: _width * 0.14826,
                               //alignment: Alignment.center,
                               padding: EdgeInsets.all(12.0),
                               decoration: BoxDecoration(
@@ -438,7 +445,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               left: 40,
                               child: Container(
                                 margin: EdgeInsets.only(bottom: 25),
-                                height: 200,
+                                height: _height * 0.272,
                                 width: 320,
                               color: Colors.green.withOpacity(0.4),
                               ),
@@ -545,6 +552,12 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                             )
                           ],
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context,"/2nd");
+                          },
+                          child: Text('2nd Page'),
                         ),
                         ],
                     ),

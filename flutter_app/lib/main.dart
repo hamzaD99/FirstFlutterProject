@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/Home/index.dart';
+import 'package:flutter_app/2nd Page//index.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 void main() {
@@ -35,7 +36,12 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: MyHomePage(),
+      //home: MyHomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => MyHomePage(),
+        '/2nd': (context) => Next_Page(),
+      },
     );
   }
 }
