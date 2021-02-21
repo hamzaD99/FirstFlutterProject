@@ -23,6 +23,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String dropdownValue = 'Cho'.tr();
   String selectedRadioStr = "Nothing";
   String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now());
+  String dropdownValue2 = 'English - UK';
+  String icon = "uk.png";
 
   bool validateStructure(String value){
     String  pattern = r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
@@ -479,26 +481,71 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           },
                           )),
-                        RaisedButton(
-                          elevation: 5.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13.0),
-                          ),
-                          highlightElevation: 8.0,
-                          padding: EdgeInsets.symmetric(horizontal: 80.0,vertical: 20.0),
-                          textColor: Colors.white,
-                          color: Colors.pink,
-                          child: Text("lan".tr(),
-                            style: TextStyle(
-                              fontSize:20.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+
+                            DropdownButton<String>(
+                              icon: Container(
+                                padding: EdgeInsets.only(
+                                  left: 10,
+                                ),
+                                child: Image(
+                                  image: AssetImage("assets/" + icon),
+                                ),
+                                height: 30,
+                                width: 30,
+                              ),
+                              iconSize: 18,
+                              elevation: 16,
+                              value: dropdownValue2,
+                              style: TextStyle(color: Colors.black),
+                              underline: Container(
+                                padding: EdgeInsets.only(left: 4, right: 4),
+                                color: Colors.transparent,
+                              ),
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  if (newValue == 'English - UK') {
+                                    this.setState(() {
+                                      dropdownValue = 'English - UK';
+                                      icon = "uk.png";
+                                      context.locale = Locale('en', 'UK');
+                                    });
+                                  } else if (newValue == 'Spanish - ES') {
+                                    this.setState(() {
+                                      dropdownValue = 'Arabic - JO';
+                                      icon = "ar.png";
+                                      context.locale = Locale('ar', 'JO');
+                                    });
+                                  }
+                                });
+                              },
+                              items: <String>['English - UK', 'Arabic - JO']
+                                  .map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                          ),
-                          onPressed: (){
-
-                          }
+                            Container(
+                              margin: EdgeInsets.only(left: 3),
+                              child: Icon(
+                                Icons.keyboard_arrow_down,
+                                size: 18,
+                              ),
+                            )
+                          ],
                         ),
-
-
                         ],
                     ),
                   )
