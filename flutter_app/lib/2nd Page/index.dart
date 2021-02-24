@@ -2,13 +2,17 @@ import 'dart:ui';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 class Next_Page extends StatefulWidget {
+List data = new List();
+  Next_Page({
+    @required this.data,
+  });
   @override
   _Next_PageState createState() => _Next_PageState();
 }
 
 class _Next_PageState extends State<Next_Page> {
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -27,6 +31,10 @@ class _Next_PageState extends State<Next_Page> {
                 },
                 child: Text('Go back!'),
               ),
+              Text(
+                widget.data[0].toString(),
+              ),
+              Image.network(widget.data[1].toString())
             ],
           ),
         ),

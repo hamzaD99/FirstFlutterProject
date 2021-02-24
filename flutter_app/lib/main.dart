@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/Home/index.dart';
 import 'package:flutter_app/2nd Page//index.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import 'package:flutter_app/onGenerateRoute.dart';
 void main() {
   runApp(
       EasyLocalization(
@@ -38,10 +38,7 @@ class MyApp extends StatelessWidget {
       locale: context.locale,
       //home: MyHomePage(),
       initialRoute: '/',
-      routes: {
-        '/': (context) => MyHomePage(),
-        '/2nd': (context) => Next_Page(),
-      },
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }

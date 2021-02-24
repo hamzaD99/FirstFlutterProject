@@ -555,7 +555,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            Navigator.pushNamed(context,"/2nd");
+                            Navigator.pushNamed(context,"/2nd",
+                            arguments: ["TESTTTTTTT","https://www.jetsetter.com/wp-content/uploads/sites/7/2019/04/GettyImages-920879930-1380x690.jpg"],
+                            );
                           },
                           child: Text('2nd Page'),
                         ),
