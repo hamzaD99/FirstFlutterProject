@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:ui';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -346,7 +347,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   fontSize:20.0,
                                 ),
                               ),
-                              onPressed: (){
+                              onPressed: () async {
                                 String Check = "";
                                 String Error = "";
                                 switch(selectedRadio){
@@ -373,9 +374,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                   _showMyDialogSaved(
                                       nameCont.text, ageCont.text,
                                       selectedRadioStr, Check);
-                                    pre="";
-                                    saveData(nameCont.text,ageCont.text,selectedRadioStr,Check,formattedDate);
-                                    print(formattedDate);
+                                  print("before calling save");
+                                  pre="";
+                                    await saveData(nameCont.text,ageCont.text,selectedRadioStr,Check,formattedDate);
+                                    print(formattedDate+" After Calling save");
                                 }
                                 else {
                                   if(nameCont.text == "") Error += "ErrName".tr()+"\n";
@@ -593,13 +595,27 @@ class FullScreenDialog extends StatelessWidget {
     );
   }
 }
-saveData(name,age,rad,che,date) async {
+/*saveData(name,age,rad,che,date) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString('Name', name);
   await prefs.setString('Age', age);
   await prefs.setString('Radio', rad);
   await prefs.setString('Check', che);
   await prefs.setString('Time', date);
+  print("inside save");
+}*/
+//Save Data using then instade of await
+Future<Void> saveData(name,age,rad,che,date) {
+  SharedPreferences.getInstance().then((prefs){
+    print("inside save");
+    prefs.setString('Name', name);
+    prefs.setString('Age', age);
+    prefs.setString('Radio', rad);
+    prefs.setString('Check', che);
+    prefs.setString('Time', date);
+    return;
+  });
+
 }
 readData() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();

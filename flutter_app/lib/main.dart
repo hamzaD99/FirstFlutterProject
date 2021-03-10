@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       //home: MyHomePage(),
-      initialRoute: '/',
+      initialRoute: '/splash',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
